@@ -13,18 +13,33 @@ const App = () => {
     ];
 
     const [selected, setSelected] = useState(0);
-    //const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
+    const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
 
+    const vote = () => {
+        const newVotes = [...votes];
+        newVotes[selected] += 1;
+        setVotes(newVotes);
+    }
 
+    const index = votes.findIndex(value => value === Math.max(...votes))
 
     return (
         <div>
-            {anecdotes[selected]}
-            <p >
-                <button onClick={() => setSelected(Math.floor(Math.random() * 5))}>next anecdote</button>
-            </p>
+            <p>{anecdotes[selected]}</p>
+            <p>获得的票数：{votes[selected]}</p>
+            <button onClick={vote}>Vote</button>
+            <button onClick={() => setSelected(Math.floor(Math.random() * 5))}>next anecdote</button>
+            <h2>最受欢迎的箴言：</h2>
+            <p>{anecdotes[index]}</p>
         </div>
     )
 }
 
 export default App
+
+// const anecdote = {
+//     content: 'Hello, world!',
+//     vote: 0,
+// }
+
+// const anecdotes = [anecdote];
