@@ -23,6 +23,8 @@
 const Total = ({ course }) => {
     return <>
         <div>
+            total
+            of &nbsp;
             {
                 JSON.stringify(
                     course
@@ -33,6 +35,8 @@ const Total = ({ course }) => {
                         .reduce((prev, next) => prev + next)
                 )
             }
+            &nbsp;
+            exercises
         </div>
     </>
 }
