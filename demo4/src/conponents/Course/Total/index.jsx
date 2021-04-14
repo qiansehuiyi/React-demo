@@ -23,22 +23,26 @@
 const Total = ({ course }) => {
     return <>
         <div>
-            total
-            of &nbsp;
-            {
-                JSON.stringify(
-                    course
-                        .map(
-                            ({ parts }) => parts.map(({ exercises }) => exercises)
-                        )
-                        .flat()
-                        .reduce((prev, next) => prev + next)
-                )
-            }
-            &nbsp;
-            exercises
+            total of {
+                course
+                    .map(
+                        ({ parts }) => parts.map(({ exercises }) => exercises)
+                    )
+                    .flat()
+                    .reduce((prev, next) => prev + next)
+            } exercises
         </div>
+        {
+            JSON.stringify(
+                course
+                    .map(({ parts }) => parts)
+                //  .map(({ length }) => console.log(length))
+                // .reduce((prev, next) => prev + next)
+            )
+        }
     </>
 }
 
 export default Total
+
+

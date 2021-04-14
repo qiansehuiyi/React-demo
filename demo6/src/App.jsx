@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import List from './components/List'
 
 const App = () => {
 
@@ -23,27 +24,48 @@ const App = () => {
         //     ).then(response => response.json()).catch(error => console.log(error));
         //     console.log(persons)
         axios.post('http://localhost:4000/persons', {
+            id: 15,
             name: 'susan',
-            number: '688855',
-            id: 11
+            number: '688855'
         }).then(function (res) {
             console.log(res)
         }).catch(function (error) {
             console.log(error)
         })
     }
+    const [readPostId, writePostId] = useState("");
+    const [readStatus, writeStatus] = useState("");
+    // => Handlers
+    //const updatePostId = (e) => writePostId(e.target.value);
+    const deletePost = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.delete(`http://localhost:4000/persons/${readPostId}`);
+            writeStatus("Post successfully deleted");
+            setTimeout(() => writeStatus(""), 3000);
+        } catch (err) {
+            writeStatus("Post deletion failed");
+        }
 
-    const handleDelete = async event => {
-        axios.post('http://localhost:4000/persons/?id').then(response => response.json())
-            .then(response => console.log(response))
     }
+    // const handleDelete = async event => {
+    //     axios.post(`http://localhost:4000/persons/?${id}`).then(response => response.json())
+    //         .then(response => console.log(response))
+    // }
 
     return <>
-        {
+        <List persons={persons}></List>
+        {/* {
             persons.map(({ id, name, number }) => <p key={id}>{name} {number}</p>)
-        }
+        } */}
         <button onClick={handleSubmit}>Submit</button>
-        <button onClick={handleDelete}>Delete</button>
+        <div>
+            <form onSubmit={deletePost}>
+                <input onChange={(e) => writePostId(e.target.value)} value={readPostId} />
+                <input type="submit" value="Delete" />
+            </form>
+            {readStatus && <p>{readStatus}</p>}
+        </div>
     </>;
 
 }
