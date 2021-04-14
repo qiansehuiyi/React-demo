@@ -42,7 +42,8 @@ const App = () => {
         try {
             await axios.delete(`http://localhost:4000/persons/${readPostId}`);
             writeStatus("Post successfully deleted");
-            setTimeout(() => writeStatus(""), 3000);
+            setTimeout(() => writeStatus(""), 1000);
+            setPersons(persons)
         } catch (err) {
             writeStatus("Post deletion failed");
         }
