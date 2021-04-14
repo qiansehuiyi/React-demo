@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# 7 实现展示国家信息的应用
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Target I 创建应用
 
-## Available Scripts
+> 知识点：HTTP 请求、Axios、遍历渲染、Effect Hook
 
-In the project directory, you can run:
+API <https://restcountries.eu> 以机器可读的格式，提供了不同国家的大量数据，即所谓的 RESTful API。
 
-### `yarn start`
+创建一个应用，可以查看不同国家的数据。应用可以从这个 URI <https://restcountries.eu/#api-endpoints-all> 中获取数据。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+第一个目标非常简单：获取所有国家信息，并展示所有国家列表。
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Target II 搜索
 
-### `yarn test`
+> 知识点：事件处理、Effect Hook
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+接下来要实现一个新功能，通过在搜索字段中键入搜索查询，可以找到要显示的国家名称。
 
-### `yarn build`
+预览图如下：	
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![搜索结果预览](https://image-bed-41101202.oss-cn-hangzhou.aliyuncs.com/typora/image-20210401150238399.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Target III 优化搜索展示
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> 知识点：分支判断
 
-### `yarn eject`
+对上一步的搜索功能进行优化，如果匹配查询的国家太多（超过 10 个），则提示用户使查询更加具体：
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![结果过多预览](https://image-bed-41101202.oss-cn-hangzhou.aliyuncs.com/typora/image-20210401150104894.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+如果少于 10 个国家，则显示所有匹配查询的国家名称：
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![国家列表预览](https://image-bed-41101202.oss-cn-hangzhou.aliyuncs.com/typora/image-20210401150040164.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Target IV 显示国家详情
 
-## Learn More
+如果只有一个国家匹配查询，则显示该国的基本数据、国旗和该国使用的语言：
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![国家详情预览](https://image-bed-41101202.oss-cn-hangzhou.aliyuncs.com/typora/image-20210401145918531.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+提示：你的应用在大多数国家能好用就可以了。 有些国家（如苏丹）可能会很难支持，因为国名是另一个国家名称的一部分。你不必担心这些边缘情况。
 
-### Code Splitting
+## Target V 展开按钮
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+> 知识点：条件渲染
 
-### Analyzing the Bundle Size
+当页面上显示多个国家的名称时，在国家名称旁边有一个展开按钮，当按下该按钮时，显示该国家的详细信息：
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+![展开按钮预览](https://image-bed-41101202.oss-cn-hangzhou.aliyuncs.com/typora/image-20210401150014756.png)
 
-### Making a Progressive Web App
+## Target VI 天气信息
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+> 知识点：环境变量、HTTP 请求
 
-### Advanced Configuration
+在显示单个国家数据的视图中添加该国首都的天气报告，这里推荐使用 <https://weatherstack.com> 接口。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+最终功能成果的预览如下：
 
-### Deployment
+![天气功能预览](https://image-bed-41101202.oss-cn-hangzhou.aliyuncs.com/typora/image-20210401145948303.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `yarn build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+你可能需要注册一个账号，并获取一个 Secret Key 来调用该服务网站的 API 接口。
+
+**警告：不要将 Secret Key 保存到源代码管理 Git 中！应当使用[环境变量](https://create-react-app.dev/docs/adding-custom-environment-variables/)来保存密钥。**
+
+### 方式一
+
+假设 Secret Key 是 *t0p53cr3t4p1k3yv4lu3*，可以通过这种方式传入环境变量：
+
+```bash
+REACT_APP_SECRET_KEY='t0p53cr3t4p1k3yv4lu3' npm start
+```
+
+您可以从 *process.env* 对象访问密钥的值：
+
+```js
+const secretKey = process.env.REACT_APP_API_KEY;
+// variable secretKey has now the value set in startup
+```
+
+注意，如果你使用 `npx create-react-app ...` 创建了应用，并且想要为环境变量使用其他名称，则环境变量必须以 `REACT_APP_` 开头。
+
+### 方式二
+
+你还可以通过在项目中创建一个名为 `.env` 的文件并添加以下内容来使用 `.env` 文件，而不是每次都在命令行中定义。
+
+```text
+REACT_APP_SECRET_KEY=t0p53cr3t4p1k3yv4lu3
+```
+
+注意你需要重启 React 开发服务器来启用这些变化。

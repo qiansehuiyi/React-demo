@@ -5,104 +5,62 @@ import List from './components/List'
 const App = () => {
 
     const [persons, setPersons] = useState([]);
+    const [postId, setPostId] = useState("");
+    const [status, setStatus] = useState("");
+
+    const fetchPersons = async () =>
+        fetch('http://localhost:4000/persons')
+            .then(response => response.json());
 
     useEffect(() => {
-        const fetchPersons = async () => fetch('http://localhost:4000/persons').then(response => response.json());
         fetchPersons()
             .then(persons => setPersons(persons));
-    }, []);
-    // const person = { name: 'lisi', number: '8899966', id: 10 }
+    }, [status]);
+
     const handleSubmit = async event => {
-        //     await fetch('http://localhost:4000/persons',
-        //         {
-        //             body: JSON.stringify(person),
-        //             headers: {
-        //                 'Content-Type': 'application/json;charset=utf-8'
-        //             },
-        //             method: 'POST'
-        //         }
-        //     ).then(response => response.json()).catch(error => console.log(error));
-        //     console.log(persons)
-        axios.post('http://localhost:4000/persons', {
-            id: 15,
-            name: 'susan',
-            number: '688855'
-        }).then(function (res) {
-            console.log(res)
-        }).catch(function (error) {
-            console.log(error)
-        })
+        try {
+            await axios.post('http://localhost:4000/persons', {
+                name: 'Tom',
+                number: '1340000'
+            })
+            setStatus("添加成功");
+            setTimeout(() => setStatus(""), 1000);
+            console.log('添加成功')
+        } catch (err) {
+            console.log('出错啦')
+        }
     }
-    const [readPostId, writePostId] = useState("");
-    const [readStatus, writeStatus] = useState("");
+
     // => Handlers
     //const updatePostId = (e) => writePostId(e.target.value);
     const deletePost = async (e) => {
         e.preventDefault();
         try {
-            await axios.delete(`http://localhost:4000/persons/${readPostId}`);
-            writeStatus("Post successfully deleted");
-            setTimeout(() => writeStatus(""), 1000);
-            setPersons(persons)
+            await axios.delete(`http://localhost:4000/persons/${postId}`);
+            setStatus("Post successfully deleted");
+            setTimeout(() => setStatus(""), 1000);
         } catch (err) {
-            writeStatus("Post deletion failed");
+            setStatus("Post deletion failed");
         }
 
     }
-    // const handleDelete = async event => {
-    //     axios.post(`http://localhost:4000/persons/?${id}`).then(response => response.json())
-    //         .then(response => console.log(response))
-    // }
+
 
     return <>
         <List persons={persons}></List>
-        {/* {
-            persons.map(({ id, name, number }) => <p key={id}>{name} {number}</p>)
-        } */}
         <button onClick={handleSubmit}>Submit</button>
         <div>
             <form onSubmit={deletePost}>
-                <input onChange={(e) => writePostId(e.target.value)} value={readPostId} />
+                <input onChange={(e) => setPostId(e.target.value)} value={postId} />
                 <input type="submit" value="Delete" />
             </form>
-            {readStatus && <p>{readStatus}</p>}
+            {status && <p>{status}</p>}
         </div>
     </>;
 
 }
 
 
-// export default class App extends Component {
-//     componentDidMount() {
-//         //const _this = this;
-//         axios.get('http://localhost:4000/persons', {})  //这里是后端接口，注意不要跨域
-//             .then(function (response) {
-//                 const list = response.data
-//                 return list
-//                 // _this.setState({ user: response.data.data.name, number: response.data.data })
-//             })
-//             .catch(function (error) {
-//                 console.log(error);
-//             })
-//         axios.post('http://localhost:4000/persons', {
-//             name: 'zhangsan',
-//             number: '111111',
-//         }).then(function (res) {
-//             console.log(res)
-//         }).catch(function (error) {
-//             console.log(error)
-//         })
-//     }
-//     render() {
 
-//         return (
-//             <div>
-//                 <div>
-
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
 
 export default App;
