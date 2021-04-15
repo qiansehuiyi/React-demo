@@ -32,7 +32,10 @@ const App = () => {
       filterdCountries.length > 10
         ? <p>搜索结果过多，请输入具体的搜索关键字</p>
         : filterdCountries.map(
-          country => <Country key={country.name + filterdCountries.length} country={country} isExpand={filterdCountries.length === 1} />
+          country => <Country key={country.name + filterdCountries.length}
+            country={country}
+            isExpand={filterdCountries.length === 1}
+          />
         )
     }
   </>
