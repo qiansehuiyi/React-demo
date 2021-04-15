@@ -13,7 +13,7 @@ const App = () => {
     ];
 
     const [selected, setSelected] = useState(0);
-    const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
+    const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));//对数组进行填充初始化都为0
 
     const vote = () => {
         const newVotes = [...votes];
@@ -37,9 +37,3 @@ const App = () => {
 
 export default App
 
-// const anecdote = {
-//     content: 'Hello, world!',
-//     vote: 0,
-// }
-
-// const anecdotes = [anecdote];

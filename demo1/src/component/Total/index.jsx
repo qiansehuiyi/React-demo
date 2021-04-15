@@ -1,5 +1,3 @@
-
-
 const Total = ({ parts }) => {
   console.log(parts)
   return <>
